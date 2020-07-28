@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Add icon library -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" type="text/css"	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+
+<title>Registration</title>
+<style>
+div.mytable {
+  margin: auto;
+  width: 1020px;
+  padding: 10px; 
+}
+</style>
+ 
+<style>
+.btn {
+	background-color: DodgerBlue;
+	border: none;
+	color: white;
+	padding: 12px 16px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+	background-color: RoyalBlue;
+}
+</style>
+<script type="text/javascript">
+function deleletconfig(){
+
+    var del=confirm("Are you sure you want to delete this customer?");
+    if (del==true){
+       alert ("Customer Deleted")
+    }else{
+        alert("Customer Not Deleted")
+    }
+    return del;
+    }
+   
+</script>
+</head>
+<body>
+	<div>&nbsp;</div>
+	<div>&nbsp;</div>
+	<div>&nbsp;</div>
+
+<button class="btn" onclick="location.href='/';"><i class="fa fa-home"></i> Home</button>
+<button class="btn" onclick="location.href='/customers';"><i class="fa fa-plus"></i> Add Customer</button>
+<button class="btn" onclick="location.href='/createaccount';"><i class="fa fa-dollar"></i> Create Bank Account</button>
+<button class="btn" onclick="location.href='/manageaccounts';"><i class="	far fa-address-card"></i> Manage Accounts</button>
+	
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Welcome <span sec:authentication="principal.username">User</span></a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div th:if="${param.success}">
+					<div class="alert alert-info">You've successfully created new
+						customer!</div>
+				</div>
+				<h1>Manage Customers</h1>
+	<table class="table table-striped table-primary"  >
+    
+    <thead class="ttop">
+        <tr  class="table-info">
+           <td><b>FIRST NAME</b> </td>
+              <td><b>LAST NAME</b> </td>
+              <td><b>ADDRESS</b> </td>
+            <td><b>PHONE</b> </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="empl, iStat : ${newcustomer}" th:style="${iStat.odd}? 'font-weight: normal;'">
+             <td  th:text="${empl.firstName}">
+              </td><td th:text="${empl.LastName}">
+                </td><td th:text="${empl.address}">
+            </td><td th:text="${empl.phone}">
+            </td><td>  
+            <input type="hidden" name="id" id="id" th:value="${empl.ppsnum}">
+               <form th:action="@{/empUpdateToEdit}" th:object="${newcustomer}" method="post">
+                    <input type="hidden" name="id" id="id" th:value="${empl.id}">
+                    <input type="hidden" name="firstName" id="firstName" th:value="${empl.firstName}">
+                    <input type="hidden" name="lastName" id="lastName" th:value="${empl.lastName}">
+                    <input type="hidden" name="address" id="address" th:value="${empl.address}">
+                    <input type="hidden" name="phone" id="phone" th:value="${empl.phone}">
+                    <input type="hidden" name="ppsnum" id="ppsnum" th:value="${empl.ppsnum}">
+                    <button type="submit">Update</button>
+               </form>
+            </td>
+            <td>  
+               <form th:action="@{/empUpdateToDelete}" th:object="${newcustomer}" method="post">
+                    <input type="hidden" name="id" id="id" th:value="${empl.id}">
+                    <input type="hidden" name="firstName" id="firstName" th:value="${empl.firstName}">
+                    <input type="hidden" name="lastName" id="lastName" th:value="${empl.lastName}">
+                    <input type="hidden" name="address" id="address" th:value="${empl.address}">
+                    <input type="hidden" name="phone" id="phone" th:value="${empl.phone}">
+                    <input type="hidden" name="ppsnum" id="ppsnum" th:value="${empl.ppsnum}">
+                    <button type="submit" onclick="return deleletconfig()">Delete</button>
+               </form>
+            </td>
+       </tr>
+     </tbody>
+    </table>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

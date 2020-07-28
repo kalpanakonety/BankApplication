@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<title>Registration</title>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      
+      <script>
+         $(document).ready(function() {
+            $("button").click(function() {
+          
+               var employeeModel = {
+                  name : $('#name').val(),
+                  age : $('#age').val(),
+                  salary: $('#salary').val()
+               };
+               var requestJSON = JSON.stringify(employeeModel);
+               $.ajax({
+                  type : "POST",
+                  url : "http://localhost:8080/employees",
+                  headers : {
+                     "Content-Type" : "application/json"
+                  },
+                  data : requestJSON,
+                  success : function(data) {
+                     alert(data);
+                  },
+                  error : function(data) {
+                  }
+               });
+            });
+         });
+      </script>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Add New Customer</a>
+			</div>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1>Enter new customer details</h1>
+				<form th:action="@{/login}" method="post">
+					
+					<div class="form-group">
+						<label for="username">Customer name</label>: <input type="text"
+							id="name" name="name" class="form-control"
+							autofocus="autofocus" placeholder="name" />
+					</div>
+					<div class="form-group">
+						<label for="password">Customer Age</label>: <input type="text"
+							id="age" name="age" class="form-control"
+							placeholder="age" />
+					</div>
+					<div class="form-group">
+						<label for="password">Customer Salary</label>: <input type="text"
+							id="salary" name="salary" class="form-control"
+							placeholder="salary" />
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="submit" name="submit" id="submit"
+									class="form-control btn btn-primary" value="Create" />
+							</div>
+						</div>
+					</div>
+					
+				</form>
+				<div>
+			<button><a href="/" th:href="@{/}">Back to Home</a></button> </br>
+			</div>
+			</div>
+			
+		</div>
+
+
+	</div>
+
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
